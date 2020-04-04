@@ -4,6 +4,7 @@ import com.chibana.springframework.sfgjms.config.JmsConfig;
 import com.chibana.springframework.sfgjms.model.HelloWorldMessage;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.UUID;
  * Created by Rodrigo Chibana
  * Date: 27/03/2020
  **/
+@Log4j2
 @RequiredArgsConstructor
 @Component
 public class MessageSender {
@@ -22,7 +24,7 @@ public class MessageSender {
 
     @Scheduled(fixedRate = 2000)
     public void sendMessage() {
-        System.out.println("Sending message...");
+        log.info("Sending message...");
 
         HelloWorldMessage helloWorldMessage = HelloWorldMessage.builder()
                 .id(UUID.randomUUID())
@@ -31,7 +33,7 @@ public class MessageSender {
 
         jmsTemplate.convertAndSend(JmsConfig.MY_HELLO_WORLD_QUEUE, helloWorldMessage);
 
-        System.out.println("Message sent!");
+        log.info("Message sent!");
 
     }
 
